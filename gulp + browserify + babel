@@ -8,12 +8,16 @@ var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 var watch = require('gulp-watch');
 
-var paths = {
-    theme : './webroot/themes/theme-name/',
-    js : this.theme + 'js/',
-    sass : this.theme + 'sass/',
-    dist : this.theme + 'dist/'
-};
+var paths = (function(){
+    var theme = './webroot/themes/email-docs/';
+    return {
+        theme : theme,
+        js : theme + 'js/',
+        sass : theme + 'sass/',
+        dist : theme + 'dist/'
+    }
+})();
+
 
 var notify = function(error) {
     var message = 'In: ';
@@ -69,6 +73,6 @@ gulp.task('sass', function () {
 gulp.task('default', ['build', 'sass', 'watch']);
 
 gulp.task('watch', function () {
-    gulp.watch(paths.sass + '**/*.scss', ['sass']);
-    gulp.watch(paths.js + '**/*.js', ['build']);
+    watch(paths.sass + '**/*.scss', ['sass']);
+    watch(paths.js + '**/*.js', ['build']);
 });
