@@ -9,10 +9,10 @@ var sass = require('gulp-sass');
 var watch = require('gulp-watch');
 
 var paths = {
-    theme : './',
-    js : this.theme + '',
-    sass : this.theme + '',
-    dist : this.theme + ''
+    theme : './webroot/themes/theme-name/',
+    js : this.theme + 'js/',
+    sass : this.theme + 'sass/',
+    dist : this.theme + 'dist/'
 };
 
 var notify = function(error) {
@@ -38,7 +38,7 @@ var notify = function(error) {
 };
 
 var bundler = watchify(browserify({
-    entries: ['./webroot/themes/email-docs/js/main.js'],
+    entries: [paths.js + 'main.js'],
     extensions: ['.js'],
     debug: true,
     cache: {},
@@ -51,7 +51,7 @@ function bundle() {
         .bundle()
         .on('error', notify)
         .pipe(source('main.js'))
-        .pipe(gulp.dest(path.dist))
+        .pipe(gulp.dest(paths.dist))
 }
 bundler.on('update', bundle);
 
@@ -60,7 +60,7 @@ gulp.task('build', function() {
 });
 
 gulp.task('sass', function () {
-    gulp.src(path.sass + '**/*.scss')
+    gulp.src(paths.sass + '**/*.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(concat('style.css'))
         .pipe(gulp.dest('./'));
@@ -69,6 +69,6 @@ gulp.task('sass', function () {
 gulp.task('default', ['build', 'sass', 'watch']);
 
 gulp.task('watch', function () {
-    gulp.watch(path.sass + '**/*.scss', ['sass']);
-    gulp.watch(path.js + '**/*.js', ['build']);
+    gulp.watch(paths.sass + '**/*.scss', ['sass']);
+    gulp.watch(paths.js + '**/*.js', ['build']);
 });
